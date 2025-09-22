@@ -1,0 +1,42 @@
+{
+  "name": "@multidots/sanity-plugin-team-members",
+  "version": "1.0.0",
+  "description": "A Sanity Studio plugin for managing team members with block editor integration",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "sanity",
+    "sanity-plugin",
+    "team",
+    "members",
+    "block-editor",
+    "cms"
+  ],
+  "author": "Multidots",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "sanity": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "typescript": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AbdullaPatva/sanity-plugin-team-members.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AbdullaPatva/sanity-plugin-team-members/issues"
+  },
+  "homepage": "https://github.com/AbdullaPatva/sanity-plugin-team-members#readme"
+}
