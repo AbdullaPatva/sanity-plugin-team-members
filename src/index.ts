@@ -1,6 +1,7 @@
 import { definePlugin } from 'sanity'
 import { teamMember } from './schema/teamMember'
 import { teamMemberBlock } from './blocks/teamMemberBlock'
+import { teamMembersReference } from './schema/teamMembersReference'
 
 export interface TeamMembersPluginConfig {
   /**
@@ -32,14 +33,12 @@ export const teamMembersPlugin = definePlugin<TeamMembersPluginConfig>((config =
   const {
     schemaTypes = ['post', 'page', 'article'],
     showInPortableText = true,
-    blockIcon = '👥',
-    blockTitle = 'Team Member',
   } = config
 
   return {
     name: 'team-members',
     schema: {
-      types: [teamMember],
+      types: [teamMember, teamMembersReference],
     },
     document: {
       // Add team member block to specified schema types
@@ -56,8 +55,8 @@ export const teamMembersPlugin = definePlugin<TeamMembersPluginConfig>((config =
 // Export the block for use in portable text
 export { teamMemberBlock }
 
-// Export the schema
-export { teamMember }
+// Export the schemas
+export { teamMember, teamMembersReference }
 
 // Export frontend components
 export { TeamMemberDisplay, TeamMembersDisplay } from './components/TeamMemberDisplay'
@@ -77,6 +76,13 @@ export type {
   UseTeamMembersResult,
   UseTeamMemberResult,
 } from './types/frontend'
+
+// Export example components
+export { PortableTextTeamMembers, PortableTextTeamMembersExample } from './examples/PortableTextTeamMembers'
+export { ReferenceTeamMembers, ReferenceTeamMembersExample, useTeamMembersReference } from './examples/ReferenceTeamMembers'
+
+// Export GROQ query examples
+export * from './examples/groq-queries'
 
 // CSS styles are available at: ./styles/team-member.css
 // Import them in your application: import '@multidots/sanity-plugin-team-members/styles/team-member.css'
