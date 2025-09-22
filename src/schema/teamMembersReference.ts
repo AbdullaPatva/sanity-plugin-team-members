@@ -17,7 +17,10 @@ export const teamMembersReference = defineType({
         },
       ],
       validation: (Rule) => Rule.required().min(1).max(20),
-      description: 'Select one or more team members to display',
+      description: 'Select multiple team members to display (1-20 members)',
+      options: {
+        sortable: true,
+      },
     }),
     defineField({
       name: 'displayLayout',

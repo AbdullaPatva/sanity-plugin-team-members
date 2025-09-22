@@ -1,6 +1,6 @@
 # Sanity Team Members Plugin
 
-A comprehensive Sanity plugin for managing and displaying team members with flexible configuration options.
+A Sanity plugin for managing team members with flexible configuration options for both portable text blocks and reference fields.
 
 ## Features
 
@@ -8,9 +8,8 @@ A comprehensive Sanity plugin for managing and displaying team members with flex
 - **Portable Text Integration**: Team member blocks that can be embedded in portable text fields
 - **Reference Field**: Standalone reference field for selecting multiple team members
 - **Flexible Display Options**: Common settings for both block and reference fields
-- **Frontend Components**: Ready-to-use React components for displaying team members
-- **GROQ Query Examples**: Complete examples for fetching published team members
-- **TypeScript Support**: Full type definitions for all components and data structures
+- **Multiple Member Selection**: Select multiple team members in reference fields
+- **TypeScript Support**: Full type definitions for all schemas
 
 ## Installation
 
@@ -236,183 +235,106 @@ For selecting multiple team members:
 }
 ```
 
-## Frontend Usage
+## Frontend Integration
 
-### 1. Import Components and Styles
+The plugin provides schemas and blocks for Sanity Studio. For frontend implementation, you'll need to create your own components using the GROQ queries and data structures provided.
+
+### Frontend Implementation Examples
+
+See the `examples/` directory for complete working examples:
+
+- `PortableTextTeamMembers.tsx`: Example for portable text integration
+- `ReferenceTeamMembers.tsx`: Example for reference field usage  
+- `groq-queries.ts`: Complete GROQ query examples
+
+### Basic Frontend Setup
 
 ```typescript
-import { 
-  TeamMemberDisplay, 
-  TeamMembersDisplay,
-  PortableTextTeamMembers,
-  ReferenceTeamMembers 
-} from '@multidots/sanity-plugin-team-members'
+// 1. Create a Sanity client
+import { createClient } from '@sanity/client'
+
+const client = createClient({
+  projectId: 'your-project-id',
+  dataset: 'production',
+  useCdn: true,
+})
+
+// 2. Fetch team members using GROQ queries
+const teamMembers = await client.fetch(`
+  *[_type == "teamMember" && !(_id in path("drafts.**")) && isActive == true] {
+    _id,
+    name,
+    position,
+    department,
+    bio,
+    photo {
+      asset-> {
+        _id,
+        url
+      },
+      alt
+    },
+    socialLinks[] {
+      platform,
+      url,
+      label
+    },
+    url,
+    isActive
+  }
+`)
+
+// 3. Fetch team members reference with settings
+const teamMembersRef = await client.fetch(`
+  *[_type == "post" && _id == $documentId][0].teamMembersReference {
+    teamMembers[]-> {
+      _id,
+      name,
+      position,
+      department,
+      bio,
+      photo {
+        asset-> {
+          _id,
+          url
+        },
+        alt
+      },
+      socialLinks[] {
+        platform,
+        url,
+        label
+      },
+      url,
+      isActive
+    },
+    displayLayout,
+    showSocialLinks,
+    showBio,
+    showPosition,
+    showDepartment,
+    showUrl,
+    gridColumns,
+    maxItems
+  }
+`, { documentId: 'your-document-id' })
+```
+
+### CSS Styles
+
+Import the provided CSS styles in your application:
+
+```typescript
 import '@multidots/sanity-plugin-team-members/styles/team-member.css'
 ```
 
-### 2. Display Team Member Blocks from Portable Text
-
-```typescript
-import { PortableTextTeamMembers } from '@multidots/sanity-plugin-team-members'
-
-function MyComponent({ content }) {
-  const sanityConfig = {
-    projectId: 'your-project-id',
-    dataset: 'production',
-    useCdn: true,
-  }
-
-  return (
-    <PortableTextTeamMembers
-      content={content} // Portable text content array
-      sanityConfig={sanityConfig}
-      onMemberClick={(member) => console.log('Member clicked:', member.name)}
-      onSocialLinkClick={(platform, url) => console.log('Social link clicked:', platform, url)}
-    />
-  )
-}
-```
-
-### 3. Display Team Members from Reference Field
-
-```typescript
-import { ReferenceTeamMembers } from '@multidots/sanity-plugin-team-members'
-
-function MyComponent({ teamMembersData }) {
-  const sanityConfig = {
-    projectId: 'your-project-id',
-    dataset: 'production',
-    useCdn: true,
-  }
-
-  return (
-    <ReferenceTeamMembers
-      teamMembersData={teamMembersData} // Team members reference data
-      sanityConfig={sanityConfig}
-      onMemberClick={(member) => console.log('Member clicked:', member.name)}
-      onSocialLinkClick={(platform, url) => console.log('Social link clicked:', platform, url)}
-    />
-  )
-}
-```
-
-### 4. Display Individual Team Members
-
-```typescript
-import { TeamMemberDisplay } from '@multidots/sanity-plugin-team-members'
-
-function MyComponent({ teamMember }) {
-  const sanityConfig = {
-    projectId: 'your-project-id',
-    dataset: 'production',
-    useCdn: true,
-  }
-
-  return (
-    <TeamMemberDisplay
-      teamMember={teamMember}
-      layout="card"
-      showSocialLinks={true}
-      showBio={true}
-      showPosition={true}
-      showDepartment={true}
-      showUrl={true}
-      imageUrlBuilder={(imageRef) => {
-        // Your custom image URL builder
-        return `https://cdn.sanity.io/images/your-project-id/production/${imageRef}`
-      }}
-      onMemberClick={(member) => console.log('Member clicked:', member.name)}
-      onSocialLinkClick={(platform, url) => console.log('Social link clicked:', platform, url)}
-    />
-  )
-}
-```
-
-### 5. Display Multiple Team Members
-
-```typescript
-import { TeamMembersDisplay } from '@multidots/sanity-plugin-team-members'
-
-function MyComponent({ teamMembers }) {
-  const sanityConfig = {
-    projectId: 'your-project-id',
-    dataset: 'production',
-    useCdn: true,
-  }
-
-  return (
-    <TeamMembersDisplay
-      teamMembers={teamMembers}
-      layout="grid"
-      gridColumns={3}
-      showSocialLinks={true}
-      showBio={true}
-      showPosition={true}
-      showDepartment={true}
-      showUrl={true}
-      maxItems={6}
-      onMemberClick={(member) => console.log('Member clicked:', member.name)}
-      onSocialLinkClick={(platform, url) => console.log('Social link clicked:', platform, url)}
-    />
-  )
-}
-```
-
-## Display Layouts
-
-The plugin supports four display layouts:
-
-- **Card**: Full card layout with photo, name, position, bio, and social links
-- **List**: Horizontal list layout with photo and basic info
-- **Grid**: Grid layout with customizable columns
-- **Minimal**: Minimal layout with just photo and name
-
-## Customization
-
-### CSS Classes
-
-The plugin uses CSS classes that you can customize:
-
+The CSS includes classes for:
 - `.team-member-block`: Main container for team member blocks
 - `.team-member-block__photo`: Profile photo styling
 - `.team-member-block__name`: Member name styling
 - `.team-member-block__position`: Position styling
 - `.team-member-block__social-overlay`: Social links overlay
 - `.team-member-blocks-grid`: Grid container for multiple members
-
-### Image URL Builder
-
-You can provide a custom image URL builder function:
-
-```typescript
-const imageUrlBuilder = (imageRef: string) => {
-  const imageId = imageRef.replace('image-', '').replace('-jpg', '').replace('-png', '').replace('-webp', '')
-  const extension = imageRef.includes('-jpg') ? 'jpg' : imageRef.includes('-png') ? 'png' : 'webp'
-  return `https://cdn.sanity.io/images/your-project-id/production/${imageId}.${extension}`
-}
-```
-
-## TypeScript Support
-
-The plugin includes full TypeScript definitions:
-
-```typescript
-import type { 
-  TeamMember, 
-  TeamMemberDisplayProps, 
-  TeamMembersDisplayProps,
-  TeamMemberBlockData,
-  TeamMembersReference 
-} from '@multidots/sanity-plugin-team-members'
-```
-
-## Examples
-
-See the `examples/` directory for complete working examples:
-
-- `PortableTextTeamMembers.tsx`: Example for portable text integration
-- `ReferenceTeamMembers.tsx`: Example for reference field usage
-- `groq-queries.ts`: Complete GROQ query examples
 
 ## License
 
