@@ -24,7 +24,7 @@ export const fetchDocumentWithTeamMemberBlocks = `
     "teamMemberBlocks": content[_type == "teamMemberBlock"] {
       _key,
       _type,
-      teamMember-> {
+      teamMembers[]-> {
         _id,
         _type,
         name,
@@ -65,7 +65,7 @@ export const fetchTeamMemberBlocksFromDocument = `
   *[_type == "post" && _id == $documentId][0].content[_type == "teamMemberBlock"] {
     _key,
     _type,
-    teamMember-> {
+    teamMembers[]-> {
       _id,
       _type,
       name,
@@ -265,7 +265,7 @@ export const fetchDocumentWithAllTeamMembers = `
     "teamMemberBlocks": content[_type == "teamMemberBlock"] {
       _key,
       _type,
-      teamMember-> {
+      teamMembers[]-> {
         _id,
         _type,
         name,

@@ -101,16 +101,16 @@ The base team member schema includes:
 
 ### Team Member Block (Portable Text)
 
-For embedding in portable text fields:
+For embedding in portable text fields (supports multiple members per block):
 
-- **teamMember**: Reference to a team member
+- **teamMembers**: Array of team member references (1-20 members)
 - **displayLayout**: Override layout for this specific display
-- **showSocialLinks**: Show/hide social links
-- **showBio**: Show/hide bio
-- **showPosition**: Show/hide position
-- **showDepartment**: Show/hide department
-- **showUrl**: Show/hide website URL
-- **customTitle**: Override member name
+- **showSocialLinks**: Show/hide social links for all members
+- **showBio**: Show/hide bio for all members
+- **showPosition**: Show/hide position for all members
+- **showDepartment**: Show/hide department for all members
+- **showUrl**: Show/hide website URL for all members
+- **customTitle**: Override member name for all members
 
 ### Team Members Reference
 
@@ -137,7 +137,7 @@ For selecting multiple team members:
   "teamMemberBlocks": content[_type == "teamMemberBlock"] {
     _key,
     _type,
-    teamMember-> {
+    teamMembers[]-> {
       _id,
       _type,
       name,

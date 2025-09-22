@@ -3,9 +3,7 @@ export declare const teamMemberBlock: {
     name: "teamMemberBlock";
 } & Omit<import("sanity").ObjectDefinition, "preview"> & {
     preview?: import("sanity").PreviewConfig<{
-        title: string;
-        subtitle: string;
-        media: string;
+        members: string;
         layout: string;
-    }, Record<"title" | "media" | "subtitle" | "layout", any>> | undefined;
+    }, Record<"layout" | "members", any>> | undefined;
 };

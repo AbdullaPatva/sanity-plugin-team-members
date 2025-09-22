@@ -15,36 +15,38 @@ import { PortableText } from '@portabletext/react'
 import { TeamMemberDisplay } from '../components/TeamMemberDisplay'
 
 // Types for the team member block data
+interface TeamMember {
+  _id: string
+  _type: 'teamMember'
+  name: string
+  position?: string
+  department?: string
+  bio?: string
+  photo?: {
+    asset: {
+      _ref: string
+    }
+    alt?: string
+    hotspot?: {
+      x: number
+      y: number
+      height: number
+      width: number
+    }
+  }
+  socialLinks?: Array<{
+    platform: string
+    url: string
+    label?: string
+  }>
+  url?: string
+  isActive?: boolean
+}
+
 interface TeamMemberBlock {
   _key: string
   _type: 'teamMemberBlock'
-  teamMember: {
-    _id: string
-    _type: 'teamMember'
-    name: string
-    position?: string
-    department?: string
-    bio?: string
-    photo?: {
-      asset: {
-        _ref: string
-      }
-      alt?: string
-      hotspot?: {
-        x: number
-        y: number
-        height: number
-        width: number
-      }
-    }
-    socialLinks?: Array<{
-      platform: string
-      url: string
-      label?: string
-    }>
-    url?: string
-    isActive?: boolean
-  }
+  teamMembers: TeamMember[]
   displayLayout?: 'default' | 'card' | 'list' | 'grid' | 'minimal'
   showSocialLinks?: boolean
   showBio?: boolean
@@ -90,25 +92,30 @@ export function PortableTextTeamMembers({
     // Handle team member blocks
     block: {
       teamMemberBlock: ({ value }: any) => {
-        if (!value?.teamMember) {
+        if (!value?.teamMembers || value.teamMembers.length === 0) {
           return null
         }
 
         return (
           <div key={value._key} className={`portable-text-team-member ${className}`}>
-            <TeamMemberDisplay
-              teamMember={value.teamMember}
-              layout={value.displayLayout || 'default'}
-              showSocialLinks={value.showSocialLinks !== undefined ? value.showSocialLinks : true}
-              showBio={value.showBio !== undefined ? value.showBio : true}
-              showPosition={value.showPosition !== undefined ? value.showPosition : true}
-              showDepartment={value.showDepartment !== undefined ? value.showDepartment : true}
-              showUrl={value.showUrl !== undefined ? value.showUrl : true}
-              customTitle={value.customTitle}
-              imageUrlBuilder={imageUrlBuilder}
-              onMemberClick={onMemberClick}
-              onSocialLinkClick={onSocialLinkClick}
-            />
+            <div className="team-members-grid">
+              {value.teamMembers.map((member: TeamMember) => (
+                <TeamMemberDisplay
+                  key={member._id}
+                  teamMember={member}
+                  layout={value.displayLayout || 'default'}
+                  showSocialLinks={value.showSocialLinks !== undefined ? value.showSocialLinks : true}
+                  showBio={value.showBio !== undefined ? value.showBio : true}
+                  showPosition={value.showPosition !== undefined ? value.showPosition : true}
+                  showDepartment={value.showDepartment !== undefined ? value.showDepartment : true}
+                  showUrl={value.showUrl !== undefined ? value.showUrl : true}
+                  customTitle={value.customTitle}
+                  imageUrlBuilder={imageUrlBuilder}
+                  onMemberClick={onMemberClick}
+                  onSocialLinkClick={onSocialLinkClick}
+                />
+              ))}
+            </div>
           </div>
         )
       },

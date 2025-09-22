@@ -6,5 +6,5 @@ export declare const teamMembersReference: {
         members: string;
         layout: string;
         maxItems: string;
-    }, Record<"layout" | "maxItems" | "members", any>> | undefined;
+    }, Record<"layout" | "members" | "maxItems", any>> | undefined;
 };
