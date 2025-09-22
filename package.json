@@ -1,6 +1,6 @@
 {
   "name": "@multidots/sanity-plugin-team-members",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "A Sanity Studio plugin for managing team members with block editor integration",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -30,13 +30,5 @@
   "devDependencies": {
     "@types/react": "^18.0.0",
     "typescript": "^5.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/AbdullaPatva/sanity-plugin-team-members.git"
-  },
-  "bugs": {
-    "url": "https://github.com/AbdullaPatva/sanity-plugin-team-members/issues"
-  },
-  "homepage": "https://github.com/AbdullaPatva/sanity-plugin-team-members#readme"
+  }
 }
