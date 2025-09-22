@@ -1,10 +1,11 @@
 import { defineType, defineField } from 'sanity'
+import { UsersIcon } from '@sanity/icons'
 
 export const teamMembersReference = defineType({
   name: 'teamMembersReference',
   title: 'Team Members Selection',
   type: 'object',
-  icon: () => '👥',
+  icon: UsersIcon,
   fields: [
     defineField({
       name: 'teamMembers',
