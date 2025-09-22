@@ -336,6 +336,50 @@ The CSS includes classes for:
 - `.team-member-block__social-overlay`: Social links overlay
 - `.team-member-blocks-grid`: Grid container for multiple members
 
+## Troubleshooting
+
+### Can't Select Multiple Team Members
+
+If you're unable to select multiple team members in the reference field:
+
+1. **Check Field Type**: Make sure you're using `teamMembersReference` type, not just a simple reference
+2. **Array Field**: The field should be an array of references, not a single reference
+3. **Sanity Studio**: Look for the "+" button next to the field to add more members
+4. **Validation**: Ensure you have at least 1 team member selected (required by validation)
+
+**Correct Usage:**
+```typescript
+// In your document schema
+{
+  name: 'teamMembers',
+  title: 'Team Members',
+  type: 'teamMembersReference', // Use the full reference type
+}
+```
+
+**Incorrect Usage:**
+```typescript
+// This only allows single selection
+{
+  name: 'teamMember',
+  title: 'Team Member',
+  type: 'reference',
+  to: [{ type: 'teamMember' }],
+}
+```
+
+### Field Not Showing in Sanity Studio
+
+1. **Plugin Installation**: Make sure the plugin is properly installed and configured
+2. **Schema Registration**: Ensure `teamMembersReference` is included in your schema types
+3. **Document Type**: Add the field to your document schema
+
+### GROQ Queries Not Working
+
+1. **Published Documents**: Make sure you're querying published documents, not drafts
+2. **Field Path**: Use the correct field path in your GROQ query
+3. **Reference Resolution**: Use `->` to resolve references in GROQ
+
 ## License
 
 MIT
