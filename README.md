@@ -29,10 +29,7 @@ import { teamMembersPlugin } from '@multidots/sanity-plugin-team-members'
 export default defineConfig({
   // ... your config
   plugins: [
-    teamMembersPlugin({
-      schemaTypes: ['post', 'page', 'article'], // Document types to include team member blocks
-      showInPortableText: true, // Show team member blocks in portable text editor
-    }),
+    teamMembersPlugin(),
   ],
 })
 ```
@@ -325,7 +322,7 @@ const teamMembersRef = await client.fetch(`
 Import the provided CSS styles in your application:
 
 ```typescript
-import '@multidots/sanity-plugin-team-members/styles/team-member.css'
+import 'sanity-plugin-team-members/styles/team-member.css'
 ```
 
 The CSS includes classes for:
