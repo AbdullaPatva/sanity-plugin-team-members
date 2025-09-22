@@ -100,7 +100,6 @@ export const teamMemberBlock = defineType({
       return {
         title: `${memberCount} Team Member${memberCount !== 1 ? 's' : ''}`,
         subtitle: `Layout: ${layout || 'default'}`,
-        media: '👥',
       }
     },
   },

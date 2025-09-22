@@ -111,7 +111,6 @@ export const teamMembersReference = defineType({
       return {
         title: `${displayCount} Team Member${displayCount !== 1 ? 's' : ''}`,
         subtitle: `Layout: ${layout || 'card'}${maxItems ? ` (max ${maxItems})` : ''}`,
-        media: '👥',
       }
     },
   },
