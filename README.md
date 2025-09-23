@@ -17,6 +17,15 @@ A Sanity plugin for managing team members with flexible configuration options fo
 npm install @multidots/sanity-plugin-team-members
 ```
 
+## Screenshots
+
+### Plugin Overview
+- [Screenshot 1: Team Member Schema in Sanity Studio](https://share.cleanshot.com/TKswYRYpFWmLRRRpfgXy)
+- [Screenshot 2: Team Member Block in Portable Text Editor](https://share.cleanshot.com/qxR8BDcnrWgMfS5GJdmx)
+- [Screenshot 3: Team Members Reference Field Configuration](https://share.cleanshot.com/GL5XBkgHzLbNkc5r2NyT)
+- [Screenshot 4: Frontend Team Members Display](https://share.cleanshot.com/sybzx99ybMB9YJhtxJPR)
+
+
 ## Sanity Studio Setup
 
 ### 1. Install the Plugin

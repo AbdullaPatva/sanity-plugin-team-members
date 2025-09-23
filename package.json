@@ -1,6 +1,6 @@
 {
   "name": "@multidots/sanity-plugin-team-members",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A Sanity Studio plugin for managing team members with block editor integration",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
